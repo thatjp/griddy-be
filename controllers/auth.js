@@ -17,8 +17,6 @@ exports.register = asyncHandler(async (req, res, next) => {
     role,
     last_name,
     first_name,
-    sponsor,
-    event
   } = req.body;
 
   const user = await User.create({
@@ -29,8 +27,6 @@ exports.register = asyncHandler(async (req, res, next) => {
     last_name,
     first_name,
     role,
-    sponsor,
-    event
   });
 
   sendTokenResponse(user, 200, res);
