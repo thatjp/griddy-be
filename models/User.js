@@ -10,16 +10,10 @@ const UserSchema = new mongoose.Schema({
   last_name: {
     type: String,
   },
-  role: {
-    type: String,
-  },
   email: {
     type: String,
   },
   phone: {
-    type: String,
-  },
-  phone_2: {
     type: String,
   },
   username: {

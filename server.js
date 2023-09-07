@@ -1,4 +1,6 @@
 const express = require('express');
+const session = require('express-session')
+const MongoDBStore = require('connect-mongodb-session')(session)
 const path = require('path');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
@@ -18,8 +20,13 @@ connectDB();
 
 const auth = require('./routes/auth');
 const users = require('./routes/users');
+const todos = require('./routes/todos');
 
 const app = express();
+const store = new MongoDBStore({
+  uri: process.env.MONGO_URI,
+  collection: 'sessions'
+})
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
@@ -40,9 +47,11 @@ app.use(cookieParser());
 app.use(queryType.middleware());
 
 app.use(express.static(publicPath));
+app.use(session({secret: 'test secret', resave: false, saveUninitialized: false, store: store}))
 
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/users', users);
+app.use('/api/v1/todos', todos);
 
 app.use(errorHandler);
 
